@@ -1,0 +1,22 @@
+{
+  "name": "mongoose-sampling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "mocha test/**/*.spec.js --exit",
+    "submit": "mocha test/submission.spec.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0"
+  }
+}
