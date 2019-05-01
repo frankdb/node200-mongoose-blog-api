@@ -15,4 +15,6 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
+app.use('/api/users', require('./routes/users'));
+
 module.exports = app;
