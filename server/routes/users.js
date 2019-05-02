@@ -40,11 +40,33 @@ router.post('/', (req, res) => {
 });
 
 // Update a user
-// router.put('/:id', (req, res) => {
-//   const id = req.params.id;
-//   User
-//     .findByIdAndUpdate(id)
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  User
+    .findByIdAndUpdate(id, {
+      $set: {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email
+      }
+    })
+    .exec()
+    .then(result => {
+      console.log(result);
+      res.status(204).send(result);
+    })
+    .catch(err => console.log(err));
 
-// })
+})
+
+// Delete a user
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  User
+    .findByIdAndRemove(id)
+    .then(user => {
+      res.status(200).json(user);
+    });
+})
 
 module.exports = router;
