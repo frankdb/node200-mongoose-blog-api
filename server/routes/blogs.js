@@ -31,7 +31,15 @@ router.get('/:id', (req, res) => {
   Blog
     .findById(id)
     .then(blog => {
-      res.status(200).json(blog);
+      console.log('blog:', blog);
+      if (blog === null) {
+        return res.status(404).send('error: blog not found');
+      } else {
+        return res.status(200).json(blog);
+      }
+    })
+    .catch(err => {
+      return res.status(404).json({ error: err })
     });
 });
 
@@ -49,16 +57,21 @@ router.post('/', (req, res) => {
         published: req.body.published,
         featured: req.body.featured,
         author: user._id
-      });
-
-      return blog.save();
+      })
+      return blog.save().then(() => {
+        res.status(201).send('saved');
+      })
+        .catch(err => console.log(err));
     })
     .then(blog => {
       // Push the saved blog to the array of blogs associated with the User
       dbUser.blogs.push(blog);
 
       // Save the user back to the database and respond to the original HTTP request with a copy of the newly created blog.
-      dbUser.save().then(() => res.status(201).json(blog));
+      return dbUser.save().then(() => res.status(201).json(blog).send('saved'));
+    })
+    .catch(err => {
+      console.log(err)
     })
 
 });
@@ -89,8 +102,12 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id;
   Blog
     .findByIdAndRemove(id)
+    .exec()
     .then(blog => {
       res.status(200).json(blog);
+    })
+    .catch(err => {
+      res.status(400);
     });
 })
 

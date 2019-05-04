@@ -58,7 +58,7 @@ describe('/api/blogs', function () {
         createUserInDB().then(user => {
             chai.request(app)
                 .post('/api/blogs')
-                .send(Object.assign({ author: user._id}, fakeBlogs[1]))
+                .send(Object.assign({ author: user._id }, fakeBlogs[1]))
                 .end((err, res) => {
                     expect(res).to.have.status(201);
                     expect(res.body).to.not.be.null;
