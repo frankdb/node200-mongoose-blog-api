@@ -48,19 +48,11 @@ router.post('/', (req, res) => {
   var dbUser;
 
   User
-    .findById(req.body.authorId)
+    .findById(req.body.author)
     .then(user => {
       dbUser = user;
-      const blog = new Blog({
-        title: req.body.title,
-        article: req.body.article,
-        published: req.body.published,
-        featured: req.body.featured,
-        author: user._id
-      })
-      return blog.save().then(() => {
-        res.status(201).send('saved');
-      })
+      const blog = new Blog(req.body);
+      return blog.save()
         .catch(err => console.log(err));
     })
     .then(blog => {
